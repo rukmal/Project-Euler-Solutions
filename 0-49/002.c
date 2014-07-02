@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-int main ()
+int main()
 {
 	int const MAX_VALUE = 4000000; // 4 million
 	int currentTerm = 0;

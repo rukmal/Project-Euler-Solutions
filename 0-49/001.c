@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-int main ()
+int main()
 {
 	int totalSum = 0;
 	for (int i = 0; i < 1000; i++)
