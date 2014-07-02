@@ -28,16 +28,21 @@ int roundToInt(double d)
  * @param  n Number to check
  * @return   True if prime, false if not
  */
-bool isPrime(long n)
+bool isPrime(long primeCandidate)
 {
-	if (n == 2)
+	if (primeCandidate == 2)
 	{
-		// special case: 2 is a prime number
+		// special case: 2 is prime
 		return true;
 	}
-	for (long i = 2; i < n; i++)
+	else if (primeCandidate % 2 == 0)
 	{
-		if (n % i == 0)
+		// Even means not a prime
+		return false;
+	}
+	for (long i = 3; i < primeCandidate; i += 2)
+	{
+		if (primeCandidate % i == (long) 0)
 		{
 			return false;
 		}
@@ -48,15 +53,22 @@ bool isPrime(long n)
 int main()
 {
 	long const VALUE = 600851475143;
+	long const MIN = 5000;
 	long currentMax = 0;
-	for (long i = VALUE / 2; i > 0; i--)
+	long maxPrimeFactor = 0;
+	for (long i = 1; i < VALUE / 2; i++)
 	{
-					printf("%lo\n", i);
-
-		if ((VALUE % i == 0) && isPrime(i))
-		{
-			printf("%lo\n", i);
+		printf("%lo\n", i);
+		if (i < (long) roundToInt(sqrt(VALUE)))
+		{		
+			if (isPrime(i) && i > MIN)
+			{
+				maxPrimeFactor = i;
+				break;
+			}
+		} else {
 			break;
 		}
 	}
+	printf("%lo\n", maxPrimeFactor);
 }
