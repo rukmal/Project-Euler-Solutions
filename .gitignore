@@ -1,0 +1,5 @@
+# Ignoring system files
+.DS_Store
+
+# Ignoring compiled C files
+*.out
