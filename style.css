@@ -1,0 +1,27 @@
+#maintitle {
+	margin-top: 0.8em;
+	font-size: 5em;
+	font-family: 'Comfortaa', serif;
+}
+
+#solutions {
+	font-size: 4em;
+	font-family: 'Pacifico', serif;
+}
+
+#bodytext {
+	padding-top: 2em;
+	font-family: 'PT Mono', monospace;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+#bodytext > a {
+	color: rgb(0, 150, 255);
+	transition: color 0.25s;
+}
+
+#bodytext > a:hover {
+	color: rgb(102, 102, 102);
+	text-decoration: none;
+}
