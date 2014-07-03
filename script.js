@@ -64,6 +64,6 @@ $.get(apiBaseURL + solutionsLocation, function (data) {
 	}
 });
 
-$('.question').click(function () {
+$('#solutionslist').on('click', '.question', function () {
 	console.log('click');
 });
