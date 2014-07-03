@@ -13,6 +13,7 @@ var languages = {
 	"js": "JavaScript",
 	"java": "Java"
 }
+var popups = [];
 
 /**
  * Function to decode Base64 string
@@ -35,7 +36,6 @@ function decode (encodedString) {
 }
 
 function setPopupHTML (questionNumber) {
-	// var 
 		var filename = data[solution].name;
 		$.get(apiBaseURL + solutionsLocation + filename, function (codedata) {
 			var questionNumber = codedata.name.split('.')[0];
@@ -46,7 +46,8 @@ function setPopupHTML (questionNumber) {
 
 function getItemHTML (name) {
 	var problemNumber = name.split('.')[0];
-	var itemHTML = '<div class="col-md-4"><p align="center" class="bodytext" id="p' + problemNumber + '"><a href="#" data-toggle="modal" data-target="#something">Problem ' + problemNumber + '</a></p></div>'
+	popups.push('#popup' + problemNumber);
+	var itemHTML = '<div class="col-md-4"><p align="center" class="bodytext" id="p' + problemNumber + '"><a href="#" class="question" data-toggle="modal" data-target="#popup' + problemNumber + '">Problem ' + problemNumber + '</a></p></div>'
 	return itemHTML;
 }
 
@@ -61,4 +62,8 @@ $.get(apiBaseURL + solutionsLocation, function (data) {
 		var itemHTML = getItemHTML(data[solution].name);
 		$('#solutionslist').append(itemHTML);
 	}
+});
+
+$('.question').click(function () {
+	console.log('click');
 });
