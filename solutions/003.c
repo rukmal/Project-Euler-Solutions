@@ -13,62 +13,56 @@
 #include <stdbool.h>
 #include <math.h>
 
-/**
- * Function to round to the nearest integer
- * @param  d Double to be rounded
- * @return   Rounded integer
- */
-int roundToInt(double d)
+int nextPrimeHelper(int candidate)
 {
-	return (int) floor(d + 0.5);
-}
-
-/**
- * Function to determine if a number is prime
- * @param  n Number to check
- * @return   True if prime, false if not
- */
-bool isPrime(long primeCandidate)
-{
-	if (primeCandidate == 2)
+	for (int i = 3; i < candidate; i += 2)
 	{
-		// special case: 2 is prime
-		return true;
-	}
-	else if (primeCandidate % 2 == 0)
-	{
-		// Even means not a prime
-		return false;
-	}
-	for (long i = 3; i < primeCandidate; i += 2)
-	{
-		if (primeCandidate % i == (long) 0)
+		if (candidate % i == 0)
 		{
-			return false;
+			return nextPrimeHelper(candidate + 2);
 		}
 	}
-	return true;
+	return candidate;
+}
+
+int nextPrime(int currentPrime)
+{
+	if (currentPrime == 2)
+	{
+		return 3;
+	}
+	else
+	{
+		return nextPrimeHelper(currentPrime + 2);
+	}
 }
 
 int main()
 {
 	long const VALUE = 600851475143;
-	long const MIN = 5000;
-	long currentMax = 0;
-	long maxPrimeFactor = 0;
-	for (long i = 1; i < VALUE / 2; i++)
+	long currentValue = VALUE;
+	long currentPrime = 2;
+	int counter = 0;
+	while (true)
 	{
-		printf("%lo\n", i);
-		if (i < (long) roundToInt(sqrt(VALUE)))
-		{		
-			if (isPrime(i) && i > MIN)
-			{
-				maxPrimeFactor = i;
-				break;
-			}
-		} else {
+		printf("%lo\n", currentValue);
+		if (currentPrime == VALUE)
+		{
+			printf("%lo\n", currentPrime);
 			break;
 		}
+		else if (VALUE % currentPrime == 0)
+		{
+			currentValue = currentValue / currentPrime;
+		}
+		else if (counter > 1)
+		{
+			currentPrime = 2;
+			counter = 0;
+		}
+		else if (VALUE % currentPrime != 0)
+		{
+			currentPrime = nextPrime(currentPrime);
+		}
 	}
-	printf("%lo\n", maxPrimeFactor);
 }
