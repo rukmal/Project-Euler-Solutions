@@ -24,7 +24,23 @@
 		<div class="container">
 			<p align="center" class="bodytext">Open Source project by <a href='http://rukmal.me'>Rukmal Weerawarana</a> (<a href="http://twitter.com/rukmal_w">@rukmal_w</a>).</p>
 		</div>
-		<div id='dropdowns'>
+		<div class='modal fade' id='popup' role='dialog' aria-hidden='false'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>
+						    <span class='glyphicon glyphicon-remove-circle'></span>
+						</button>
+						<div id="question-title"></div>
+					</div>
+					<div class='modal-body'></div>
+					<div class='modal-footer'>
+						<button class='btn btn-success' data-dismiss='modal' class='close' aria-hidden='true'>
+							Okay  <span class='glyphicon glyphicon-ok'></span>
+						</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script src='extras/prism.js'></script>

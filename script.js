@@ -8,12 +8,13 @@
 
 // Constants
 var languages = {
-	"c": "C",
-	"py": "Python",
-	"js": "JavaScript",
-	"java": "Java"
+	"c": "c",
+	"py": "python",
+	"js": "javascript",
+	"java": "java"
 }
-var popups = [];
+var apiBaseURL = 'https://api.github.com/repos/rukmal/Project-Euler-Solutions/contents/';
+var solutionsLocation = 'solutions/';
 
 /**
  * Function to decode Base64 string
@@ -35,24 +36,41 @@ function decode (encodedString) {
 	return decodedString;
 }
 
-function setPopupHTML (questionNumber) {
-		var filename = data[solution].name;
-		$.get(apiBaseURL + solutionsLocation + filename, function (codedata) {
-			var questionNumber = codedata.name.split('.')[0];
-			var language = languages[codedata.name.split('.')[1]];
-			console.log(language);
-		});
-}
-
+/**
+ * Function to create HTML to be inserted in the list
+ * @param  {String} name Name of the question
+ * @return {String}      HTML to be inserted into the DOM
+ */
 function getItemHTML (name) {
 	var problemNumber = name.split('.')[0];
-	popups.push('#popup' + problemNumber);
-	var itemHTML = '<div class="col-md-4"><p align="center" class="bodytext" id="p' + problemNumber + '"><a href="#" class="question" data-toggle="modal" data-target="#popup' + problemNumber + '">Problem ' + problemNumber + '</a></p></div>'
+	var extension = name.split('.')[1];
+	var language = languages[extension];
+	var itemHTML = '<div class="col-md-4"><p align="center" class="bodytext"><a href="#" class="question" data-toggle="modal" data-target="#popup" question-number="' + problemNumber + '" language="' + language + '" filename="' + name + '">Problem ' + problemNumber + '</a></p></div>'
 	return itemHTML;
 }
 
-var solutionsLocation = 'solutions/';
-var apiBaseURL = 'https://api.github.com/repos/rukmal/Project-Euler-Solutions/contents/';
+/**
+ * Function to create HTML for modal title
+ * @param  {String} question Question number
+ * @return {String}          HTML to be inserted into the DOM
+ */
+function getTitleHTML (question) {
+	var titleHTML = '<h4 class="modal-title">Problem ' + question + '</h4>'
+	return titleHTML;
+}
+
+/**
+ * Function to create HTML for the code block
+ * @param  {String} code     The actual code
+ * @param  {String} language Language that the code is written in
+ * @return {String}          HTML to be inserted into the DOM
+ */
+function getCodeHTML (code, language) {
+	var codehtml = '<pre class="  language-' + language + '"><code class="  language-' + language + '">' + code + '</code></pre>';
+	return codehtml;
+}
+
+// Populating the list 
 
 $.get(apiBaseURL + solutionsLocation, function (data) {
 	if (data === null) {
@@ -64,6 +82,25 @@ $.get(apiBaseURL + solutionsLocation, function (data) {
 	}
 });
 
+// Changing the modal HTML accordingly if it is clicked on
+// Doing it this way minimizes API calls, and reduces the chances of hitting
+// the hourly limit
+
 $('#solutionslist').on('click', '.question', function () {
-	console.log('click');
+	var question = $(this).attr('question-number');
+	var filename = $(this).attr('filename');
+	var language = $(this).attr('language')
+	$('#question-title').empty();
+	var titleHTML = getTitleHTML(question);
+	$('#question-title').append(titleHTML);
+	// grabbing the code from the github api
+	$.get(apiBaseURL + solutionsLocation + filename, function (codedata) {
+		if (codedata === null) {
+			console.log('Internal ERR: Error fetching code from GitHub.');
+		}
+		var code = decode(codedata.content);
+		var codeHTML = getCodeHTML(code, language);
+		$('.modal-body').empty();
+		$('.modal-body').append(codeHTML);
+	});
 });
