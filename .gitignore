@@ -3,3 +3,6 @@
 
 # Ignoring compiled C files
 *.out
+
+# Ignoring pycache files
+*.pyc

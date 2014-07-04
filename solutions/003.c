@@ -10,20 +10,6 @@
  */
 
 #include <stdio.h>
-#include <stdbool.h>
-#include <math.h>
-
-int nextPrimeHelper(int candidate)
-{
-	for (int i = 3; i < candidate; i += 2)
-	{
-		if (candidate % i == 0)
-		{
-			return nextPrimeHelper(candidate + 2);
-		}
-	}
-	return candidate;
-}
 
 int nextPrime(int currentPrime)
 {
@@ -31,38 +17,33 @@ int nextPrime(int currentPrime)
 	{
 		return 3;
 	}
-	else
+	int candidatePrime = currentPrime + 2;
+	for (int i = 3; i < candidatePrime; i += 2)
 	{
-		return nextPrimeHelper(currentPrime + 2);
+		if (candidatePrime % i == 0)
+		{
+			return nextPrime(candidatePrime);
+		}
 	}
+	return candidatePrime;
 }
 
 int main()
 {
 	long const VALUE = 600851475143;
 	long currentValue = VALUE;
-	long currentPrime = 2;
-	int counter = 0;
-	while (true)
+	int currentPrime = 2;
+	while (currentPrime != (int) currentValue)
 	{
-		printf("%lo\n", currentValue);
-		if (currentPrime == VALUE)
-		{
-			printf("%lo\n", currentPrime);
-			break;
-		}
-		else if (VALUE % currentPrime == 0)
+		if (currentValue % currentPrime == 0)
 		{
 			currentValue = currentValue / currentPrime;
-		}
-		else if (counter > 1)
-		{
 			currentPrime = 2;
-			counter = 0;
 		}
-		else if (VALUE % currentPrime != 0)
+		else
 		{
 			currentPrime = nextPrime(currentPrime);
 		}
 	}
+	printf("%i\n", (int) currentValue);
 }
