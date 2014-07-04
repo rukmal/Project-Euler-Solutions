@@ -66,7 +66,7 @@ function getTitleHTML (question) {
  * @return {String}          HTML to be inserted into the DOM
  */
 function getCodeHTML (code, language) {
-	var codehtml = '<pre class="  language-' + language + '"><code class="  language-' + language + '">' + code + '</code></pre>';
+	var codehtml = '<pre class="line-numbers language-' + language + '"><code class="language-' + language + '">' + code + '</code></pre>';
 	return codehtml;
 }
 
